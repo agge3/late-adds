@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+
+<form onsubmit='return setAction(this)'>
+	<div>
+		<label for='course'>Course</label>
+		<select id='course' name='user_course' required>
+				<option value='csc317'>CSC 317</option>
+				<option value='csc340'>CSC 340</option>
+				<option value='csc300gwar'>CSC 300 GWAR</option>
+				<option value='csc415'>CSC 415</option>
+		</select>
+	</div>
+	<div>
+		<label>Name:</label>
+		<input id='name' name='name' type='name'>
+	</div>
+	<div>
+		<label>Student ID:</label>
+		<input id='id' name='id' type='id'>
+	</div>
+	<div>
+		<label>Reason For Add:</label>
+		<input id='reason' name='reason' type='reason'>
+	</div>
+	<div>
+		<input id='submit' type='submit' value='Add'>
+	</div>
+</form>
+
+<div id='output'></div>
+<script>
+const submissions = [];
+
+function setAction(form) {
+	const name = document.getElementById('name').value.trim();	
+	const id = document.getElementById('id').value.trim();
+	const course = document.getElementById('course').value.trim();
+	const reason = document.getElementById('reason').value.trim();
+
+	if (!name || !id || !course || !reason) {
+		console.log("Invalid form submission.");
+		return false;
+	}
+
+	submissions.push({name, id, course, reason});
+
+	render();
+
+	form.reset();
+
+	return false;
+}
+
+function render()
+{
+	const output = document.getElementById('output');
+
+	if (submissions.length === 0) {
+		output.innerHTML = '';
+		return;
+	}
+
+	let pos = submissions.length;
+	const items = submissions.map(e =>
+		`<li>
+			<span>Name: ${e.name}</span>
+			<br>
+			<span>ID: ${e.id}</span>
+			<br>
+			<span>Course: ${e.course}</span>
+			<br>
+			<span>Position: ${pos} in course</span>
+			<br>
+			<span>Reason: ${e.reason}</span>
+		</li>`
+	).join('');
+
+	output.innerHTML = `<ul>${items}</ul>`;
+}
+</script>
+
+</body>
+</html>
